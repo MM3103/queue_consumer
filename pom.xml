@@ -5,53 +5,68 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.4</version>
+        <groupId>liga.medical</groupId>
+        <artifactId>common</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>liga.medical</groupId>
-    <artifactId>queue_consumer</artifactId>
+
     <version>0.0.1-SNAPSHOT</version>
-    <name>queue_consumer</name>
+    <artifactId>queue_consumer</artifactId>
+    <packaging>pom</packaging>
+
+
     <description>queue_consumer</description>
+
     <properties>
         <java.version>11</java.version>
+        <spring.boot.amqp>2.7.4</spring.boot.amqp>
+        <spring.boot.actuator>2.7.4</spring.boot.actuator>
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+            <version>${spring.boot.amqp}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>${spring.boot.actuator}</version>
         </dependency>
         <dependency>
             <groupId>liga.medical</groupId>
-            <artifactId>common-dto</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <artifactId>message-analyzer-dto</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency>
-    </dependencies>
+            <groupId>liga.medical</groupId>
+            <artifactId>monitoring-dto</artifactId>
+            <version>${project.version}</version>
+        </dependency>    </dependencies>
 
     <build>
+        <finalName>queue_consumer-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.boot.version}</version>
                 <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
+                    <mainClass>liga.medical.MedicalQueueConsumerApplication</mainClass>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>build-info</id>
+                        <goals>
+                            <goal>build-info</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
